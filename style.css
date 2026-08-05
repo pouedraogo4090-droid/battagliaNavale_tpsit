@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
+:root {
+    --bg: #0b132b;
+    --base: rgba(28, 37, 65, 0.6);
+    --border: #3a506b;
+    --cell: rgba(28, 37, 65, 0.3);
+    --hover: rgba(0, 180, 216, 0.15);
+}
+
+body {
+    font-family:  "Changa One", sans-serif;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background:  #1c2541 ;
+    color:whitesmoke;
+    gap: 20px;
+}
+
+#scelta{
+    background-color: var(--base);
+    border: 1px solid var(--border);
+    padding: 20px 30px;
+    border-radius: 16px;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+label {
+    font-weight: 600;
+    color:lightblue;
+    display: inline-block;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+select {
+    width: 100%;
+    height: 45px;
+    background-color: #0b132b;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    color:whitesmoke;
+    font-weight: 600;
+    padding: 0 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+option {
+    background-color: #0b132b;
+    color: whitesmoke;
+}
+
+#container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+button {
+    background: linear-gradient(135deg, #0077b6, lightblue);
+    color: whitesmoke;
+    border: none;
+    padding: 12px 35px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+}
+
+button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, lightblue, #90e0ef);
+}
+
+button:disabled {
+    background: #3a506b;
+    color: lightgray;
+    box-shadow: none;
+    opacity: 0.6;
+}
+
+#grid {
+    width: 35vw;
+    height: 65vh;
+    max-width: 90vw;
+    max-height: 90vw;
+    background-color: rgba(11, 19, 43, 0.8);
+    border: 3px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    flex: 1;
+    width: 100%;
+}
+
+.cell,.oppCell {
+    height: 100%;
+    border: 1px solid rgba(58, 80, 107, 0.4);
+    background-color: var(--cell);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.cell:hover {
+    background-color: var(--hover);
+}
+
+#opponentView{
+    width:200px;
+    height:200px;
+    border:solid var(--border) 3px;
+    background-color: var(--bg);
+    border-radius: 10px;
+}
+
+#gridCont{
+    display: flex;
+    gap:5vw;
+}
+
+#turno{
+    font-weight: bolder;
+}
+
+#timerCont{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 35vw;
+    border: solid 3px var(--border);
+    border-radius: 16px;
+    background-color: var(--bg);
+    gap:7%;   
+}
