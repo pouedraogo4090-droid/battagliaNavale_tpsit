@@ -9,28 +9,38 @@ let size = 6
 let grid
 let found = 0
  
+let totalBoatCells = 0
+let boats = []
+
 select.addEventListener('change', () => {
     size = parseInt(select.value, 10)
 })
 
-class Boat{
-    constructor(size,axis,start,end,hits){
-        size=this.size
-        axis=this.axis
-        start=this.start
-        end=this.end
-        hits=0
+
+function getBoatSizes(level) {
+    const boatSizes = {
+        6: [4, 3, 2, 2],
+        7: [4, 3, 3, 2, 2],
+        8: [5, 4, 3, 3, 2]
     }
+
+    return boatSizes[level]
 }
 
-function createBoats(level) {
-    const grid = document.getElementsByClassName('cell')
-    let boatSizes=[size-2,size-3,size-3,size-4,size-4]
-    for(let i=0;i<size;i++){
-        let b=new Boat()
-        b.size=boatSizes[Math.floor(Math.random()*(boatSizes.length+1))]
-        console.log(b.size)
+function createBoats(){
+    grid=document.getElementsByClassName('cell')
+    let boats=[]
+    let vertical=true
+    
+    for(let b of getBoatSizes(size)){
+        let start
+        if(vertical){
+            let row=Math.floor(Math.random()*(size))
+        }else{
+            let row=Math.floor(Math.random()*(size))
+        }
     }
+    
 }
 
 function createGrid(container) {
@@ -42,35 +52,35 @@ function createGrid(container) {
         r.style.height = `${styleSize / size}%`
         for (let j = 0; j < size; j++) {
             let div = document.createElement('div')
-            div.classList.add(container == document.getElementById('opponentView') ?'oppCell':'cell')
+            div.classList.add('cell')
             div.style.width = `${styleSize}%`
 
             div.setAttribute('index', index)
-            container == document.getElementById('opponentView') ? null : div.onclick = () => { shoot(div.getAttribute('index')) }
+            div.onclick = () => { shoot(div.getAttribute('index')) }
             r.appendChild(div)
             index++
         }
         container.appendChild(r)
     }
-    
 }
  
 function play() {
     document.getElementById('scelta').style.display = 'none'
     turno.innerHTML = 'clicca una cella!'
     button.disabled = true
+    found = 0
     createGrid(document.getElementById('grid'))
-    createBoats()
+    createBoats(size)
     setInterval(()=>{
         let sec=parseInt(secondi.innerHTML)
         let min=parseInt(minuti.innerHTML)
+        sec++
         if(sec==60){
             sec=0
             min++
         }
-        sec++
         secondi.innerHTML=sec<10?'0'+sec:sec
-        minuti.innerHTML=min
+        minuti.innerHTML=min<10?'0'+min:min
     },1000)
 }
 
@@ -85,7 +95,7 @@ const shoot = (pos) => {
     }
     grid[pos].setAttribute('disabled',true)
     tent.innerHTML=parseInt(tent.innerHTML)+1
-    if (found === size) {
+    if (found === totalBoatCells) {
         for (let cell of grid) {
             cell.style.pointerEvents = 'none'
         }
@@ -93,7 +103,6 @@ const shoot = (pos) => {
             alert('victory')
         }, 500)
     }
-
 }
 
 
