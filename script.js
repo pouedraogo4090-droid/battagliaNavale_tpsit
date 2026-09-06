@@ -9,7 +9,7 @@ let size = 6
 let grid
 let found = 0
  
-let totalBoatCells = 0
+let totCells = 0
 let boats = []
 
 select.addEventListener('change', () => {
@@ -31,7 +31,7 @@ function createBoats(){
     grid=document.getElementsByClassName('cell')
     boats=[]
     let vertical=true
-    totalBoatCells=0
+    totCells=0
     
     for(let b of getBoatSizes(size)){
         let placed=false
@@ -65,7 +65,7 @@ function createBoats(){
                     currentBoat.push(pos)
                 }
                 boats.push(currentBoat)
-                totalBoatCells+=b
+                totCells+=b
                 placed=true
             }
         }
@@ -136,7 +136,7 @@ const shoot = (pos) => {
                 }
             }
         }
-        if (found === totalBoatCells) {
+        if (found === totCells) {
             for (let cell of grid) {
                 cell.style.pointerEvents = 'none'
             }
