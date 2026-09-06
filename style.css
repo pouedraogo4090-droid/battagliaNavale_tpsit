@@ -108,7 +108,7 @@ button:disabled {
     width: 100%;
 }
 
-.cell,.oppCell {
+.cell{
     height: 100%;
     border: 1px solid rgba(58, 80, 107, 0.4);
     background-color: var(--cell);
@@ -118,18 +118,11 @@ button:disabled {
     justify-content: center;
     align-items: center;
     font-weight: bold;
+    font-size:xx-large;
 }
 
 .cell:hover {
     background-color: var(--hover);
-}
-
-#opponentView{
-    width:200px;
-    height:200px;
-    border:solid var(--border) 3px;
-    background-color: var(--bg);
-    border-radius: 10px;
 }
 
 #gridCont{

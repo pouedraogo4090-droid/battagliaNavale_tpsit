@@ -29,18 +29,47 @@ function getBoatSizes(level) {
 
 function createBoats(){
     grid=document.getElementsByClassName('cell')
-    let boats=[]
+    boats=[]
     let vertical=true
+    totalBoatCells=0
     
     for(let b of getBoatSizes(size)){
-        let start
-        if(vertical){
-            let row=Math.floor(Math.random()*(size))
-        }else{
-            let row=Math.floor(Math.random()*(size))
+        let placed=false
+        while(!placed){
+            vertical=Math.random()<0.5
+            let start
+            let row
+            let col
+            if(vertical){
+                row=Math.floor(Math.random()*(size-b+1))
+                col=Math.floor(Math.random()*(size))
+                start=row*size+col
+            }else{
+                row=Math.floor(Math.random()*(size))
+                col=Math.floor(Math.random()*(size-b+1))
+                start=row*size+col
+            }
+            let occup=false
+            for(let i=0;i<b;i++){
+                let pos=vertical?start+(i*size):start+i
+                if(grid[pos].hasAttribute('boat')){
+                    occup=true
+                    break
+                }
+            }
+            if(!occup){
+                let currentBoat=[]
+                for(let i=0;i<b;i++){
+                    let pos=vertical?start+(i*size):start+i
+                    grid[pos].setAttribute('boat',true)
+                    currentBoat.push(pos)
+                }
+                boats.push(currentBoat)
+                totalBoatCells+=b
+                placed=true
+            }
         }
     }
-    
 }
 
 function createGrid(container) {
@@ -87,22 +116,35 @@ function play() {
 const shoot = (pos) => {
     const grid = document.getElementsByClassName('cell')
     if((grid)[pos].hasAttribute('disabled'))return
-    if (grid[pos].hasAttribute('boat')) {
-        grid[pos].innerText = '⛴️'
-        found++
-    }else{
-        grid[pos].innerText = '❌'
-    }
-    grid[pos].setAttribute('disabled',true)
-    tent.innerHTML=parseInt(tent.innerHTML)+1
-    if (found === totalBoatCells) {
-        for (let cell of grid) {
-            cell.style.pointerEvents = 'none'
+    setTimeout(()=>{
+        if (grid[pos].hasAttribute('boat')) {
+            grid[pos].innerText = '⛴️'
+            found++
+        }else{
+            grid[pos].innerText = '🌊'
         }
-        setTimeout(() => {
-            alert('victory')
-        }, 500)
-    }
+        grid[pos].setAttribute('disabled',true)
+        tent.innerHTML=parseInt(tent.innerHTML)+1
+        if (grid[pos].hasAttribute('boat')) {
+            for (let boat of boats) {
+                if (boat.includes(parseInt(pos, 10))) {
+                    if (boat.every(p => grid[p].hasAttribute('disabled'))) {
+                        setTimeout(() => {
+                            alert('Barca affondata!')
+                        }, 100)
+                    }
+                }
+            }
+        }
+        if (found === totalBoatCells) {
+            for (let cell of grid) {
+                cell.style.pointerEvents = 'none'
+            }
+            setTimeout(() => {
+                alert('victory')
+            }, 500)
+        }
+    },320)
 }
 
 
