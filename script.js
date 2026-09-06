@@ -12,6 +12,8 @@ let found = 0
 let totCells = 0
 let boats = []
 
+let int
+
 select.addEventListener('change', () => {
     size = parseInt(select.value, 10)
 })
@@ -94,13 +96,15 @@ function createGrid(container) {
 }
  
 function play() {
+    alert("cerca di trovare tutte le navi in meno di 1m e 20s!")
     document.getElementById('scelta').style.display = 'none'
     turno.innerHTML = 'clicca una cella!'
-    button.disabled = true
+    button.innerText = 'ricomincia'
+    button.onclick = restart
     found = 0
     createGrid(document.getElementById('grid'))
     createBoats(size)
-    setInterval(()=>{
+   int= setInterval(()=>{
         let sec=parseInt(secondi.innerHTML)
         let min=parseInt(minuti.innerHTML)
         sec++
@@ -110,13 +114,36 @@ function play() {
         }
         secondi.innerHTML=sec<10?'0'+sec:sec
         minuti.innerHTML=min<10?'0'+min:min
+
+        if(min==1 && sec===20 && found!=totCells){
+            alert("hai perso")
+            clearInterval(int)
+            for(cell of document.getElementsByClassName('cell')){
+                cell.style.pointerEvents='none'
+            }
+        }
     },1000)
+}
+
+function restart() {
+    clearInterval(int)
+    document.getElementById('grid').innerHTML = ''
+    document.getElementById('scelta').style.display = 'block'
+    turno.innerHTML = ''
+    button.innerText = 'gioca!'
+    button.onclick = play
+    secondi.innerHTML = '00'
+    minuti.innerHTML = '00'
+    tent.innerHTML = '0'
+    found = 0
+    boats = []
 }
 
 const shoot = (pos) => {
     const grid = document.getElementsByClassName('cell')
     if((grid)[pos].hasAttribute('disabled'))return
     setTimeout(()=>{
+        if (!grid[pos]) return
         if (grid[pos].hasAttribute('boat')) {
             grid[pos].innerText = '⛴️'
             found++
@@ -137,6 +164,7 @@ const shoot = (pos) => {
             }
         }
         if (found === totCells) {
+            clearInterval(int)
             for (let cell of grid) {
                 cell.style.pointerEvents = 'none'
             }
